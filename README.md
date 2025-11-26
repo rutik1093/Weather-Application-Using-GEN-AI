@@ -1,6 +1,6 @@
 # Weather APP 
 
-
+- Langsmith - evaluate llm response
 - Decision node (weather vs PDF RAG)
 - Weather via OpenWeatherMap
 - PDF extraction & chunking
