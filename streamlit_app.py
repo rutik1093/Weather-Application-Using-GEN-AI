@@ -1,10 +1,16 @@
-# streamlit_app.py
 import streamlit as st
+import tempfile
+import os
+
+from langsmith import Client
+from langsmith.run_helpers import trace  
+
 from app.langgraph_builder import build_workflow
-import tempfile, os
+
+client = Client()
 
 st.set_page_config(page_title="AI Pipeline Demo", layout="centered")
-st.title("PDF Question Answering + Weather App")
+st.title("Weather Application")
 
 workflow = build_workflow()
 
@@ -18,21 +24,27 @@ if uploaded:
     pdf_path = tf.name
     st.success("PDF uploaded.")
 
+
 query = st.text_input("Ask something:")
 
 if st.button("Get Answer") and query.strip():
 
+    state = {"query": query, "pdf_path": pdf_path}
 
-    
-    state = {
-        "query": query,
-        "pdf_path": pdf_path  
-    }
-    
-    res = workflow.invoke(state)
-    st.markdown("**Answer:**")
-    st.write(res.get("response"))
+   
+    with trace(
+        name="User Query Execution",
+        inputs=state,
+        project="Weather-RAG-App"
+    ) as run:
+        result = workflow.invoke(state)
+        run.end(outputs=result)
 
+    st.markdown("### Answer:")
+    st.write(result.get("response"))
+
+
+# Remove PDF
 if pdf_path and st.button("Remove PDF"):
     os.remove(pdf_path)
-    st.success("PDF removed.")
+    st.success("Removed PDF.")

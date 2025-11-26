@@ -1,4 +1,4 @@
-# Core
+
 langchain>=0.0.300
 langgraph>=0.1.0
 qdrant-client>=1.6.0
@@ -8,6 +8,6 @@ python-dotenv>=1.0.0
 streamlit>=1.25.0
 requests>=2.31.0
 pytest>=7.4.0
-# Optional LLM wrappers (pick one or both)
-llama-cpp-python>=0.1.60 # for running Llama2/Alpaca style models locally via a .bin
-# ollama has its own install; the langchain-ollama integration uses HTTP - optional
+langchain-core>=0.2.0
+langsmith>=0.1.0
+llama-cpp-python>=0.1.60 
