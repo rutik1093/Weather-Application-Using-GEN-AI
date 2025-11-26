@@ -1,5 +1,3 @@
-# Weather-Application-Using-GEN-AI
-
 # Weather APP 
 
 
